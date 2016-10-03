@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -12,5 +13,5 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Println("hello world")
 	http.HandleFunc("/", HelloWorld)
-	http.ListenAndServe(":80", nil)
+	log.Fatal(http.ListenAndServe(":80", nil))
 }
