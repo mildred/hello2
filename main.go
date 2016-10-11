@@ -20,7 +20,25 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintf(w, "Connected.\n")
-	_ = db
+
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS counter (count integer);")
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s\n", err)
+		return
+	}
+
+	_, err = db.Exec("INSERT INTO counter SELECT count(*) FROM counter")
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s\n", err)
+		return
+	}
+
+	res := db.QueryRow("SELECT count(*) FROM counter")
+
+	var count int
+	res.Scan(&count)
+
+	fmt.Fprintf(w, "count: %#v\n", count)
 }
 
 func main() {
