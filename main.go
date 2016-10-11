@@ -19,6 +19,7 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error: %s\n", err)
 		return
 	}
+	defer db.Close()
 	fmt.Fprintf(w, "Connected.\n")
 
 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS counter (count integer);")
