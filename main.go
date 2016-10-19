@@ -40,6 +40,19 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	res.Scan(&count)
 
 	fmt.Fprintf(w, "count: %#v\n", count)
+
+	fmt.Printf("\nEnvironment:\n")
+	for _, env := range os.Environ() {
+		fmt.Printf("%s\n", env)
+	}
+	fmt.Printf("\n")
+
+	hostname, err := os.Hostname()
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s\n", err)
+		return
+	}
+	fmt.Printf("Generated on %s\n", hostname)
 }
 
 func main() {
